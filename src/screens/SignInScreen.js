@@ -1,22 +1,46 @@
-import React from 'react'
+import React, { useRef } from 'react'
 
 import './SignInScreen.css'
-function SignInScreen() {
+import { auth, db } from '../Firebase'
 
-    const register = (e) => {
+function SignInScreen() {
+    const emailRef = useRef(null);
+    const passwordRef = useRef(null);
+    const register = async (e) => {
         e.preventDefault();
+
+        try {
+            const authUser = auth.createUserWithEmailAndPassword(
+            emailRef.current.value,
+            passwordRef.current.value
+            )
+            console.log(authUser)
+        }catch(err) {
+            console.log(err)
+        }
     }
 
     const signIn = (e) => {
         e.preventDefault();
+
+        try {
+            const authUser = auth.signInWithEmailAndPassword(
+            emailRef.current.value,
+            passwordRef.current.value
+            )
+            console.log(authUser)
+        }catch(err) {
+            console.log(err)
+        }
+
     }
 
     return (
         <div className="signUpScreen">
             <form>
                 <h1>Sign In</h1>
-                <input placeholder="Email" type="email" />
-                <input placeholder="Password" type="password" />
+                <input ref={emailRef} placeholder="Email" type="email" />
+                <input ref={passwordRef} placeholder="Password" type="password" />
                 <button type="submit" onClick={signIn}>Sign In</button>
 
                 <h4>
